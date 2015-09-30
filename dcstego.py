@@ -1,7 +1,18 @@
-# dcstego.py
+# ###################################################################
+# dcstego.py - the main function that will contain the general functionality
+#			   such as parsing command line arguments, checking file sizes,
+#			   etc
+#
+#
+#
+#
+# ###################################################################
+
 # from gimpfu import *
 from PIL import Image, ImageDraw, ImageMath
 import argparse
+import dcutils		# usage: dcutils.method_name() || dcutils.variable_name
+import dcimage
 
 # Opens an image at the given path
 def open_image(path, mode):
