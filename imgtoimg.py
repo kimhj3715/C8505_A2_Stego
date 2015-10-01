@@ -4,25 +4,27 @@ from PIL import Image, ImageOps
 
 def extract_image(from_image, s=4):
     data = Image.open(from_image) 
+    #rgba_img = data.convert('RGBA')
     for x in range(data.size[0]):
         for y in range(data.size[1]):
             p = data.getpixel((x, y))
-            red   = (p[0] % s) * 255 / s
-            green = (p[1] % s) * 255 / s
-            blue  = (p[2] % s) * 255 / s
+            red   = int((p[0] % s) * 255 / s)
+            green = int((p[1] % s) * 255 / s)
+            blue  = int((p[2] % s) * 255 / s)
             data.putpixel((x, y), (red, green, blue))
     return data
 
 def hide_image(public_img, secret_img, s=4):
     data = Image.open(public_img)
-    key =  ImageOps.autocontrast(Image.open(secret_img))
+    key =  Image.open(secret_img)
+    kkey = ImageOps.autocontrast(key)
     for x in range(data.size[0]):
         for y in range(data.size[1]):
             p = data.getpixel((x, y))
-            q = key.getpixel((x, y))
-            red   = p[0] - (p[0] % s) + (s * q[0] / 255)
-            green = p[1] - (p[1] % s) + (s * q[1] / 255)
-            blue  = p[2] - (p[2] % s) + (s * q[2] / 255)
+            q = kkey.getpixel((x, y))
+            red   = int(p[0] - (p[0] % s) + (s * q[0] / 255))
+            green = int(p[1] - (p[1] % s) + (s * q[1] / 255))
+            blue  = int(p[2] - (p[2] % s) + (s * q[2] / 255))
             data.putpixel((x, y), (red, green, blue))
     return data
 
